@@ -3,7 +3,7 @@ arch:
   - ppc64le
 
 sudo: required
-dist: xenial
+dist: bionic
 
 os: linux
 
