@@ -1,9 +1,5 @@
-arch:
-  - amd64
-  - ppc64le
-
 sudo: required
-dist: focal
+dist: xenial
 
 os: linux
 
@@ -38,6 +34,7 @@ linux-s390x: &linux-s390x
             - libpcre3-dev
             - mercurial
             - libpq-dev
+          
   install:
     - sudo cpanm --notest Test::Nginx IPC::Run3 > build.log 2>&1 || (cat build.log && exit 1)
     - if [ ! -f download-cache/openssl-$OPENSSL_VER.tar.gz ]; then wget -P download-cache https://www.openssl.org/source/openssl-$OPENSSL_VER.tar.gz || wget -P download-cache https://www.openssl.org/source/old/${OPENSSL_VER//[a-z]/}/openssl-$OPENSSL_VER.tar.gz; fi
@@ -79,7 +76,6 @@ env:
     - OPENSSL_VER=1.0.2u OPENSSL_PATCH_VER=1.0.2h
     - OPENSSL_VER=1.1.0l OPENSSL_PATCH_VER=1.1.0d
     - OPENSSL_VER=1.1.1f OPENSSL_PATCH_VER=1.1.1f
-
 jobs:
     include:
         - <<: *linux-s390x
@@ -88,6 +84,80 @@ jobs:
           env: OPENSSL_VER=1.1.0l OPENSSL_PATCH_VER=1.1.0d
         - <<: *linux-s390x
           env: OPENSSL_VER=1.1.1f OPENSSL_PATCH_VER=1.1.1f
+        #Added power jobs
+        - env: OPENSSL_VER=1.0.2u OPENSSL_PATCH_VER=1.0.2h
+          arch: ppc64le
+          os: linux
+          dist: xenial
+          compiler: gcc
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+        - env: OPENSSL_VER=1.0.2u OPENSSL_PATCH_VER=1.0.2h
+          arch: ppc64le
+          os: linux
+          dist: xenial
+          compiler: clang
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+        - env: OPENSSL_VER=1.1.0l OPENSSL_PATCH_VER=1.1.0d
+          arch: ppc64le
+          os: linux
+          dist: bionic
+          compiler: gcc
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+        - env: OPENSSL_VER=1.1.0l OPENSSL_PATCH_VER=1.1.0d
+          arch: ppc64le
+          os: linux
+          dist: bionic
+          compiler: clang
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+        - env: OPENSSL_VER=1.1.1f OPENSSL_PATCH_VER=1.1.1f
+          arch: ppc64le
+          os: linux
+          dist: focal
+          compiler: gcc
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+        - env: OPENSSL_VER=1.1.1f OPENSSL_PATCH_VER=1.1.1f
+          arch: ppc64le
+          os: linux
+          dist: focal
+          compiler: clang
+          addons:
+          apt:
+            packages:
+              - axel
+              - dos2unix
+              - cpanminus
+              - libgd-dev
+          
 
 install:
   - sudo cpanm --notest Test::Nginx IPC::Run3 > build.log 2>&1 || (cat build.log && exit 1)
