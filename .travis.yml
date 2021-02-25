@@ -3,7 +3,7 @@ arch:
   - ppc64le
 
 sudo: required
-dist: bionic
+dist: focal
 
 os: linux
 
